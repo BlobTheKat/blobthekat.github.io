@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Webhook client</title>
+	<style>
+		*{
+			box-sizing: border-box;
+		}
+		[noselect]{-webkit-user-select: none;
+			user-select: none}
+		body{
+			color: white;
+			font-size: 16px;
+			font-family: monospace;
+			touch-action: manipulation;
+			margin: auto;
+			background: #222;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			height: 100vh;
+			margin: 0 10%;
+		}
+		#popupoverlay{
+			text-align: center;
+			font-size: 2rem;
+		}
+		#popupoverlay input{
+			color: white;
+			font-size: 16px;
+			font-family: monospace;
+			font-size: 1rem;
+			margin: 2rem 0;
+			width: 100%;
+			background: transparent;
+			-webkit-appearance: none;
+			border: none;
+			outline: none;
+			-webkit-tap-highlight-color: transparent;
+			border-bottom: 2px white solid;
+		}
+		.w div{
+			display: inline-block;
+			max-height: 100%;
+			vertical-align: top;
+			font-size: 1rem;
+			margin: 0.8rem 2rem;
+			color: #888;
+			white-space: pre-wrap;
+		}
+		.w img{
+			width: 128px;
+			height: 128px;
+		}
+		.w{font-size: 0;cursor:pointer}
+		[data-copy]{font-style: italic}
+	</style>
+</head>
+<body>
+	<div noselect id="popupoverlay" style="display:block"><div>Enter webhook url:</div><input type="url"></div>
+	<script>
+	function openID(id){
+		window.open('/webhook#'+id, '', 'width=500,height=800')
+	}
+	function copy(el){event && event.stopPropagation();let old = el.innerHTML;navigator.clipboard.writeText(el.dataset.copy);el.innerHTML='copied!';setTimeout(()=>el.innerHTML=old,2000)}
+	function markup(obj){
+		console.log(obj)
+		return `<div onclick="openID(${obj.id})" noselect class="w" id="w-${obj.id}"><img src="${obj.avatar?`https://cdn.discordapp.com/avatars/${obj.id}/${obj.avatar}.webp?size=128`:"https://cdn.discordapp.com/embed/avatars/0.png"}" /><div><span style='font-size:1.5rem;color:#ddd'>${obj.name}</span>\n     id: <span onclick='copy(this)' data-copy="${obj.id}">${obj.id}</span>\n  guild: <span onclick='copy(this)' data-copy="${obj.guild_id}">${obj.guild_id}</span>\nchannel: <span onclick='copy(this)' data-copy="${obj.channel_id}">${obj.channel_id}</span>\n         <span style='color:#44a;text-decoration:underline' onclick='copy(this)' data-copy='${obj.token}'>copy token</span> <span style='color:#a44;text-decoration:underline' onclick='event.stopPropagation();if(this.textContent=="delete"){this.textContent = "are you sure?";let t = this;setTimeout(()=>t.textContent="delete",2000);return};delete localStorage[this.parentElement.parentElement.id];this.parentElement.parentElement.remove()'>delete</span></div></div>`
+	}
+	(d => {
+		function add(obj){
+			let m = markup(obj)
+			let a = document.getElementById('w-'+obj.id)
+			if(a)return void (a.outerHTML = m)
+			d.insertAdjacentHTML('afterEnd', m)
+		}
+		for(var i in localStorage){
+			if(!i.startsWith('w-'))continue
+			fetch(localStorage[i]).then(a=>a.json()).then(a=>add(a,console.log(a)))
+		}
+		d.lastElementChild.onkeypress=function(e){
+			if(e.keyCode != 13)return
+			url = d.lastElementChild.value
+			if(!url.match(/^https?:/)){
+				url = `https://discord.com/api/webhooks/${(url.match(/\d{17,}/)||[])[0]}/${(url.match(/[a-zA-Z0-9\-_]{50,}/)||[])[0]}`
+				console.log(url)
+			}
+			fetch(url).then(a => a.json()).then(obj => {
+				if(obj.message)throw 1
+				localStorage['w-'+obj.id]=url
+				add(obj)
+			}).catch(e => {
+				d.firstElementChild.style.color = 'red'
+				setTimeout(() => d.firstElementChild.style.color = 'white', 2e3)
+			})
+		}
+	})(document.currentScript.previousElementSibling)</script>
+</body>
+</html>
