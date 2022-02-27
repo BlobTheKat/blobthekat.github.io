@@ -44,10 +44,10 @@
 		}
 		.w div{
 			display: inline-block;
-			max-height: 100%;
+			height: 100%;
 			vertical-align: top;
 			font-size: 1rem;
-			margin: 0.8rem 2rem;
+			padding: 0.8rem 2rem;
 			color: #888;
 			white-space: pre-wrap;
 		}
@@ -74,7 +74,7 @@
 	<div noselect id="main" style="display:block"><div>Enter webhook url:</div><input type="url"></div>
 	<script>
 	function openID(id){
-		window.open('/webhook.html#'+id, '', 'width=500,height=800')
+		window.open('/webhook.html#'+id, '', 'width=360,height=640')
 	}
 	function copy(el){event && event.stopPropagation();let old = el.innerHTML;navigator.clipboard.writeText(el.dataset.copy);el.innerHTML='copied!';setTimeout(()=>el.innerHTML=old,2000)}
 	function markup(obj){
