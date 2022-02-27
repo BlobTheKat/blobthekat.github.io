@@ -77,8 +77,16 @@
 		window.open('/webhook.html#'+id, '', 'width=360,height=640')
 	}
 	function copy(el){event && event.stopPropagation();let old = el.innerHTML;navigator.clipboard.writeText(el.dataset.copy);el.innerHTML='copied!';setTimeout(()=>el.innerHTML=old,2000)}
+	esc=(a,...b)=>{
+		let res = [a[0]]
+		for(let i in a){
+			if(i=="0")continue
+			res.push(b[i-1].replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;"), a[i])
+		}
+		return res.join("")
+	};
 	function markup(obj){
-		return `<div onclick="openID('${obj.id}')" noselect class="w" id="w-${obj.id}"><img src="${obj.avatar?`https://cdn.discordapp.com/avatars/${obj.id}/${obj.avatar}.webp?size=128`:"https://cdn.discordapp.com/embed/avatars/0.png"}" /><div><span style='font-size:1.5rem;color:#ddd'>${obj.name}</span>\n     id: <span onclick='copy(this)' data-copy="${obj.id}">${obj.id}</span>\n  guild: <span onclick='copy(this)' data-copy="${obj.guild_id}">${obj.guild_id}</span>\nchannel: <span onclick='copy(this)' data-copy="${obj.channel_id}">${obj.channel_id}</span>\n         <span style='color:#44a;text-decoration:underline' onclick='copy(this)' data-copy='${obj.token}'>copy token</span> <span style='color:#a44;text-decoration:underline' onclick='event.stopPropagation();if(this.textContent=="delete"){this.textContent = "are you sure?";let t = this;setTimeout(()=>t.textContent="delete",2000);return};delete localStorage[this.parentElement.parentElement.id];this.parentElement.parentElement.remove()'>delete</span></div></div>`
+		return esc`<div onclick="openID('${obj.id}')" noselect class="w" id="w-${obj.id}"><img src="${obj.avatar?`https://cdn.discordapp.com/avatars/${obj.id}/${obj.avatar}.webp?size=128`:"https://cdn.discordapp.com/embed/avatars/0.png"}" /><div><span style='font-size:1.5rem;color:#ddd'>${obj.name}</span>\n     id: <span onclick='copy(this)' data-copy="${obj.id}">${obj.id}</span>\n  guild: <span onclick='copy(this)' data-copy="${obj.guild_id}">${obj.guild_id}</span>\nchannel: <span onclick='copy(this)' data-copy="${obj.channel_id}">${obj.channel_id}</span>\n         <span style='color:#44a;text-decoration:underline' onclick='copy(this)' data-copy='${obj.token}'>copy token</span> <span style='color:#a44;text-decoration:underline' onclick='event.stopPropagation();if(this.textContent=="delete"){this.textContent = "are you sure?";let t = this;setTimeout(()=>t.textContent="delete",2000);return};delete localStorage[this.parentElement.parentElement.id];this.parentElement.parentElement.remove()'>delete</span></div></div>`
 	}
 	(d => {
 		function add(obj){
