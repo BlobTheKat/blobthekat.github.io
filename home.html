@@ -15,7 +15,7 @@
 			color: white;
 			font-size: 16px;
 			font-family: monospace;
-			touch-action: manipulation;
+			touch-action: pan-y;
 			margin: auto;
 			background: #222;
 			display: flex;
@@ -24,15 +24,15 @@
 			height: 100vh;
 			margin: 0 10%;
 		}
-		#popupoverlay{
+		#main{
 			text-align: center;
 			font-size: 2rem;
 		}
-		#popupoverlay input{
+		#main input{
+			border-radius: 0;
 			color: white;
-			font-size: 16px;
 			font-family: monospace;
-			font-size: 1rem;
+			font-size: 1.25rem; /*for safari*/
 			margin: 2rem 0;
 			width: 100%;
 			background: transparent;
@@ -57,18 +57,28 @@
 		}
 		.w{font-size: 0;cursor:pointer}
 		[data-copy]{font-style: italic}
+		@media (max-width: 564px){
+			.w img{
+				display: block;
+				width: 50%;
+				height: auto;
+				margin: auto;
+			}
+			.w div{
+				margin: 2rem 0;
+			}
+		}
 	</style>
 </head>
 <body>
-	<div noselect id="popupoverlay" style="display:block"><div>Enter webhook url:</div><input type="url"></div>
+	<div noselect id="main" style="display:block"><div>Enter webhook url:</div><input type="url"></div>
 	<script>
 	function openID(id){
-		window.open('/webhook#'+id, '', 'width=500,height=800')
+		window.open('/webhook.html#'+id, '', 'width=500,height=800')
 	}
 	function copy(el){event && event.stopPropagation();let old = el.innerHTML;navigator.clipboard.writeText(el.dataset.copy);el.innerHTML='copied!';setTimeout(()=>el.innerHTML=old,2000)}
 	function markup(obj){
-		console.log(obj)
-		return `<div onclick="openID(${obj.id})" noselect class="w" id="w-${obj.id}"><img src="${obj.avatar?`https://cdn.discordapp.com/avatars/${obj.id}/${obj.avatar}.webp?size=128`:"https://cdn.discordapp.com/embed/avatars/0.png"}" /><div><span style='font-size:1.5rem;color:#ddd'>${obj.name}</span>\n     id: <span onclick='copy(this)' data-copy="${obj.id}">${obj.id}</span>\n  guild: <span onclick='copy(this)' data-copy="${obj.guild_id}">${obj.guild_id}</span>\nchannel: <span onclick='copy(this)' data-copy="${obj.channel_id}">${obj.channel_id}</span>\n         <span style='color:#44a;text-decoration:underline' onclick='copy(this)' data-copy='${obj.token}'>copy token</span> <span style='color:#a44;text-decoration:underline' onclick='event.stopPropagation();if(this.textContent=="delete"){this.textContent = "are you sure?";let t = this;setTimeout(()=>t.textContent="delete",2000);return};delete localStorage[this.parentElement.parentElement.id];this.parentElement.parentElement.remove()'>delete</span></div></div>`
+		return `<div onclick="openID('${obj.id}')" noselect class="w" id="w-${obj.id}"><img src="${obj.avatar?`https://cdn.discordapp.com/avatars/${obj.id}/${obj.avatar}.webp?size=128`:"https://cdn.discordapp.com/embed/avatars/0.png"}" /><div><span style='font-size:1.5rem;color:#ddd'>${obj.name}</span>\n     id: <span onclick='copy(this)' data-copy="${obj.id}">${obj.id}</span>\n  guild: <span onclick='copy(this)' data-copy="${obj.guild_id}">${obj.guild_id}</span>\nchannel: <span onclick='copy(this)' data-copy="${obj.channel_id}">${obj.channel_id}</span>\n         <span style='color:#44a;text-decoration:underline' onclick='copy(this)' data-copy='${obj.token}'>copy token</span> <span style='color:#a44;text-decoration:underline' onclick='event.stopPropagation();if(this.textContent=="delete"){this.textContent = "are you sure?";let t = this;setTimeout(()=>t.textContent="delete",2000);return};delete localStorage[this.parentElement.parentElement.id];this.parentElement.parentElement.remove()'>delete</span></div></div>`
 	}
 	(d => {
 		function add(obj){
@@ -79,7 +89,7 @@
 		}
 		for(var i in localStorage){
 			if(!i.startsWith('w-'))continue
-			fetch(localStorage[i]).then(a=>a.json()).then(a=>add(a,console.log(a)))
+			fetch(localStorage[i]).then(a=>a.json()).then(add)
 		}
 		d.lastElementChild.onkeypress=function(e){
 			if(e.keyCode != 13)return
