@@ -66,6 +66,10 @@
 			}
 			.w div{
 				margin: 2rem 0;
+				padding: 1rem 0.5rem;
+			}
+			body{
+				margin: 0 5%;
 			}
 		}
 	</style>
@@ -104,12 +108,12 @@
 			url = d.lastElementChild.value
 			if(!url.match(/^https?:/)){
 				url = `https://discord.com/api/webhooks/${(url.match(/\d{17,}/)||[])[0]}/${(url.match(/[a-zA-Z0-9\-_]{50,}/)||[])[0]}`
-				console.log(url)
 			}
 			fetch(url).then(a => a.json()).then(obj => {
 				if(obj.message)throw 1
 				localStorage['w-'+obj.id]=url
 				add(obj)
+				openID(obj.id)
 			}).catch(e => {
 				d.firstElementChild.style.color = 'red'
 				setTimeout(() => d.firstElementChild.style.color = 'white', 2e3)
