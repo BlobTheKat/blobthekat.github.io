@@ -1,13 +1,16 @@
-<style>body{font-family:Arial}body{max-width:400px}</style>
-Drag this bookmarklet into your bookmarks bar<br>
+<style>body{font-family:Arial}body{max-width:400px}a{display:block;margin:20px;border: 2px grey solid;text-align: center;padding: 10px;background:#eee}</style>
+Drag this bookmarklet into your bookmarks bar (if you have one)<br>
+Or save its link as a bookmark<br>
 It can be used on (almost) any website<br>
-<a href="javascript:['*{border-radius:0 !important}','mask{display:none !important}'].map(a=>document.styleSheets[0].insertRule(a))" onclick="event.preventDefault()">SQUARE</a>
+<a href="javascript:['*{border-radius:0 !important}','mask{display:none !important}'].map(a=>document.styleSheets[0].insertRule(a))" onclick="event.preventDefault()">Square Theme</a>
 <br>
-source code:
+Source code:
 <pre style="font-family:monospace; color: #666">
-['*{border-radius:0 !important}','mask{display:none !important}']
-  .map(a=>document.styleSheets[0].insertRule(a))
+[
+  '*{border-radius:0 !important}',
+  'mask{display:none !important}'
+].map(a => document.styleSheets[0].insertRule(a))
 </pre>
 
 <h3>Warning about bookmarklets</h3>
-Bookmarklets work by executing javascript code on the tab it's used in. Javascript is an easy way to build or modify a web page, but also an easy way for attackers to extract credentials from site you are logged in to. For the same reason I wouldn't want you to lose your details to an attacker, I encourage you to exercise caution, only run this bookmarklet if you are 100% confident that it is safe to do so. You're welcome to try it on a website or browser where you're not logged in to anything, though.
+Bookmarklets work by executing javascript code on the tab it's used in. Javascript is an easy way to build or modify a web page, but also an easy way for attackers to extract credentials from site you are logged in to. For the same reason I wouldn't want you to lose your details to an attacker, I encourage you to exercise caution, only run this bookmarklet if you are 100% confident that it is safe to do so. You're welcome to try it on a website or browser where you're not logged in, though.
