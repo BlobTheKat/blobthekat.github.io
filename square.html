@@ -2,18 +2,18 @@
 Drag this bookmarklet into your bookmarks bar (if you have one)<br>
 Or save its link as a bookmark<br>
 It can be used on (almost) any website<br>
-<a href="javascript:['*{border-radius:0 !important}','mask{display:none !important}'].map(a=>document.styleSheets[0].insertRule(a))" onclick="event.preventDefault()">Square Theme</a>
+<a href="javascript:document.head.insertAdjacentHTML('beforeend',`&lt;style>*{border-radius:0 !important}mask{display:none !important}&lt;/style>`)" onclick="event.preventDefault()">Square Theme</a>
 <br>
 Minecraft font variant<br>
-<a href="javascript:['@font-face{src:url(https://github.com/IdreesInc/Monocraft/releases/download/v2.3/Monocraft-no-ligatures.ttf);font-family:Monocraft}','*{font-family:Monocraft,Menlo,Consolas,monospace !important;border-radius:0 !important}','mask{display:none !important}'].map(a=>document.styleSheets[0].insertRule(a))" onclick="event.preventDefault()">MC Theme</a>
+<a href="javascript:document.head.insertAdjacentHTML('beforeend',`&lt;style>@font-face{src:url(https://github.com/IdreesInc/Monocraft/releases/download/v2.3/Monocraft-no-ligatures.ttf);font-family:Monocraft}*{font-family:Monocraft,Menlo,Consolas,monospace !important;border-radius:0 !important}mask{display:none !important}&lt;/style>`)" onclick="event.preventDefault()">MC Theme</a>
 <br>
 
 Source code:
 <pre style="font-family:monospace; color: #666">
-[
-  '*{border-radius:0 !important}',
-  'mask{display:none !important}'
-].map(a => document.styleSheets[0].insertRule(a))
+document.head.insertAdjacentHTML('beforeend',`&lt;style>
+ *{border-radius:0 !important}
+ mask{display:none !important}
+&lt;/style>`)
 </pre>
 
 <h3>Warning about bookmarklets</h3>
