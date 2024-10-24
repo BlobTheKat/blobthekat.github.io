@@ -5,11 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Yagpocalypse Checker</title>
     <meta name="theme-color" content="#000" />
-    <script>check = s => !/dash|and|admin|event|general|fire|sleep|ban|<(@[!&]?|#)\d+>|[!()\-.,:;"'?]|^[sdbw]|[sdbw]$/i
-        .test(s) && s.length > 20</script>
+    <script>check = s => !/dash|and|event|general|sleep|ban|i|<(@[!&]?|#)\d+>|[!()\-.,:;"'?]|^[sdbw]|[sdbw]$/i
+        .test(s) && s.length > 30 && s.length < 50</script>
 	<style>textarea{border-radius:0;position:fixed;inset:0;border:none;outline:none;color:white;background:#260;font-size:16px;border:#0008 10px solid;padding: 6px}::placeholder{color:#fff8}</style>
 </head>
 <body style="margin:0">
-	<textarea oninput="this.style.background=check(this.value.trim())?'#260':'#600';" placeholder="Day 4 • Check your message&#10;Red = bad, Green = good"></textarea>
+	<textarea oninput="this.style.background=check(this.value.trim())?'#260':'#600';" placeholder="Day 5 • Check your message&#10;Red = bad, Green = good"></textarea>
 </body>
 </html>
